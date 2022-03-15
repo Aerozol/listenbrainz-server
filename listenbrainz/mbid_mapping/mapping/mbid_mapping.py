@@ -2,7 +2,6 @@ import re
 
 import psycopg2
 from psycopg2.errors import OperationalError
-from unidecode import unidecode
 
 from mapping.utils import create_schema, insert_rows, log
 from mapping.formats import create_formats_table
@@ -211,14 +210,15 @@ def create_mbid_mapping():
                 batch_count = 0
                 serial = 1
                 log("mbid mapping: fetch recordings")
-                mb_curs.execute("""SELECT ac.id as artist_credit_id,
-                                          r.name AS recording_name,
-                                          r.gid AS recording_mbid,
-                                          ac.name AS artist_credit_name,
-                                          s.artist_mbids,
-                                          rl.name AS release_name,
-                                          rl.gid AS release_mbid,
-                                          rpr.id AS score
+                mb_curs.execute("""SELECT ac.id as artist_credit_id
+                                        , r.name AS recording_name
+                                        , r.gid AS recording_mbid
+                                        , ac.name AS artist_credit_name
+                                        , s.artist_mbids
+                                        , rl.name AS release_name
+                                        , rl.gid AS release_mbid
+                                        , rpr.id AS score
+                                        , lower(unaccent(ac.name || ' ' || r.name)) AS combined
                                      FROM recording r
                                      JOIN artist_credit ac
                                        ON r.artist_credit = ac.id
@@ -272,10 +272,7 @@ def create_mbid_mapping():
                     try:
                         recording_name = row['recording_name']
                         artist_credit_name = row['artist_credit_name']
-
-                        release_name = row['release_name']
-                        combined_lookup = unidecode(
-                            re.sub(r'[^\w]+', '', artist_credit_name + recording_name).lower())
+                        combined_lookup = re.sub(r'[^\w]+', '', row['combined'])
                         if recording_name not in artist_recordings:
                             artist_recordings[recording_name] = (serial,
                                                                  row['artist_credit_id'],
