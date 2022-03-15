@@ -8,7 +8,7 @@ from mapping.formats import create_formats_table
 import config
 
 BATCH_SIZE = 5000
-TEST_ARTIST_IDS = [1160983, 49627]  # Gun'n'roses, beyoncé
+TEST_ARTIST_IDS = [65, 1160983, 49627]  # Gun'n'roses, beyoncé
 
 
 def create_tables(mb_conn):
@@ -209,7 +209,7 @@ def create_mbid_mapping():
                 count = 0
                 batch_count = 0
                 serial = 1
-                log("mbid mapping: fetch recordings")
+                log("mbid mapping: execute query")
                 mb_curs.execute("""SELECT ac.id as artist_credit_id
                                         , r.name AS recording_name
                                         , r.gid AS recording_mbid
@@ -218,7 +218,7 @@ def create_mbid_mapping():
                                         , rl.name AS release_name
                                         , rl.gid AS release_mbid
                                         , rpr.id AS score
-                                        , lower(unaccent(ac.name || ' ' || r.name)) AS combined
+                                        , lower(unaccent(ac.name || r.name)) AS combined
                                      FROM recording r
                                      JOIN artist_credit ac
                                        ON r.artist_credit = ac.id
@@ -245,7 +245,9 @@ def create_mbid_mapping():
                                  GROUP BY rpr.id, ac.id, s.artist_mbids, rl.gid, artist_credit_name, r.gid, r.name, release_name
                                  ORDER BY ac.id, rpr.id""")
 
-                row_count = 0
+                log("mbid mapping: fetch recordings")
+
+                row_count = mb_curs.rowcount
                 while True:
                     row = mb_curs.fetchone()
                     if not row:
@@ -266,8 +268,8 @@ def create_mbid_mapping():
                             rows = []
                             batch_count += 1
 
-                            if batch_count % 200 == 0:
-                                log("mbid mapping: inserted %d rows." % count)
+                            if batch_count % 20 == 0:
+                                log("mbid mapping: inserted %d rows %.1f%%" % (count, (batch_count * BATCH_SIZE * 100.0 / row_count)))
 
                     try:
                         recording_name = row['recording_name']
@@ -279,7 +281,7 @@ def create_mbid_mapping():
                                                                  row['artist_mbids'],
                                                                  artist_credit_name,
                                                                  row['release_mbid'],
-                                                                 release_name,
+                                                                 row['release_name'],
                                                                  row['recording_mbid'],
                                                                  recording_name,
                                                                  combined_lookup,

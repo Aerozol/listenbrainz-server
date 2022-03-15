@@ -5,7 +5,6 @@ import re
 import psycopg2
 import psycopg2.extras
 from datasethoster import Query
-from unidecode import unidecode
 from listenbrainz import config
 
 
@@ -39,8 +38,7 @@ class ArtistCreditRecordingLookupQuery(Query):
         lookup_strings = []
         string_index = {}
         for i, param in enumerate(params):
-            cleaned = unidecode(re.sub(
-                r'[^\w]+', '', param["[artist_credit_name]"] + param["[recording_name]"]).lower())
+            cleaned = re.sub(r'[^\w]+', '', param["[artist_credit_name]"] + param["[recording_name]"]).lower()
             lookup_strings.append(cleaned)
             string_index[cleaned] = i
 
@@ -57,7 +55,10 @@ class ArtistCreditRecordingLookupQuery(Query):
                                        recording_mbid,
                                        combined_lookup
                                   FROM mapping.mbid_mapping
-                                 WHERE combined_lookup IN %s""", (lookup_strings,))
+                                 WHERE combined_lookup IN (
+                                         SELECT unaccent(x)
+                                           FROM (VALUES %s) AS t(x)
+                                       )""", (lookup_strings,))
 
                 results = []
                 while True:
