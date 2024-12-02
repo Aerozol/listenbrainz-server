@@ -12,7 +12,8 @@ Updating statistics for new listens			    Daily**
 Removing deleted listens from stats			    On the 2nd and 16th of each month
 Full dumps						                1st and 15th of each month
 Incremental dumps					            Daily
-Weekly playlists						           Monday morning based on the user's timezone setting.
+Weekly playlists						           Monday morning, based on the users timezone setting
+Daily playlists						          Every morning, based on the users timezone setting
 =============================================== =========================================
 
 Situations will occasionally arise where these take longer. If you have been a very patient user, and
