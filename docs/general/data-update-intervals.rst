@@ -6,9 +6,9 @@ Expected schedule:
 =============================================== =========================================
 System                                          Update schedule
 =============================================== =========================================
-Receiving listens, updating listen counts		Immediate*
+Receiving listens, updating listen counts		Immediate[1]
 Deleting listens					            Removed at the top of the next hour (UTC)
-Updating statistics for new listens			    Daily**
+Updating statistics for new listens			    Daily[2]
 Removing deleted listens from stats			    On the 2nd and 16th of each month
 Full dumps						                1st and 15th of each month
 Incremental dumps					            Daily
