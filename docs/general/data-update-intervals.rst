@@ -6,9 +6,9 @@ Expected schedule:
 =============================================== =========================================
 System                                          Update schedule
 =============================================== =========================================
-Receiving listens, updating listen counts		Immediate[1]
+Receiving listens, updating listen counts		Immediate [#]_
 Deleting listens					            Removed at the top of the next hour (UTC)
-Updating statistics for new listens			    Daily[2]
+Updating statistics for new listens			    Daily**
 Removing deleted listens from stats			    On the 2nd and 16th of each month
 Full dumps						                1st and 15th of each month
 Incremental dumps					            Daily
@@ -19,9 +19,9 @@ something still hasn't updated, check our `forum <https://community.metabrainz.o
 If you suspect something has gone very wrong you can also search for tickets, and lodge new tickets, in our
 `ticket tracker <https://tickets.metabrainz.org/projects/LB>`_.
 
-[1] Listens via a connected Spotify account may not be submitted immediately, causing a short delay
+*Listens via a connected Spotify account may not be submitted immediately, causing a short delay
 
-[2] Listen statistics may take longer on the 1st and 15th of each month
+**Listen statistics may take longer on the 1st and 15th of each month
 
 This complicated schedule is caused by ListenBrainz having a lot of interconnected parts that work at
 different scales. For more details, read on!
