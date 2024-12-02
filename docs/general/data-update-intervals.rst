@@ -20,6 +20,7 @@ If you suspect something has gone very wrong you can also search for tickets, an
 `ticket tracker <https://tickets.metabrainz.org/projects/LB>`_.
 
 [1] Listens via a connected Spotify account may not be submitted immediately, causing a short delay
+
 [2] Listen statistics may take longer on the 1st and 15th of each month
 
 This complicated schedule is caused by ListenBrainz having a lot of interconnected parts that work at
