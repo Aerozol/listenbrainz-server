@@ -10,7 +10,7 @@ Receiving listens, updating listen counts		Immediate*
 Deleting listens					            Removed at the top of the next hour (UTC)
 Updating statistics for new listens			    Daily**
 Removing deleted listens from stats			    On the 2nd and 16th of each month
-Full dumps						                1st and 15th of each month
+Full dumps						                On the 1st and 15th of each month
 Incremental dumps					            Daily
 Weekly playlists						           Monday morning, based on the users timezone setting
 Daily playlists						          Every morning, based on the users timezone setting
