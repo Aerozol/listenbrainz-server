@@ -19,6 +19,9 @@ something still hasn't updated, check our `forum <https://community.metabrainz.o
 If you suspect something has gone very wrong you can also search for tickets, and lodge new tickets, in our
 `ticket tracker <https://tickets.metabrainz.org/projects/LB>`_.
 
+   [1] A footnote contains body elements, consistently indented by at
+   least 3 spaces.
+
 *Listens via a connected Spotify account may not be submitted immediately, causing a short delay
 
 **Listen statistics may take longer on the 1st and 15th of each month
